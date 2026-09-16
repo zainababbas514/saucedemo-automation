@@ -222,18 +222,3 @@ Example:
 ```bash
 pytest --browser=chrome
 ```
-
-## 📌 Key Automation Practices
-
-This project demonstrates practical automation practices including:
-
-* Page Object Model
-* Reusable test utilities
-* Explicit waits
-* Data-driven testing
-* Parameterization
-* Cross-browser testing
-* Assertions in test cases
-* Failure handling
-* Test reporting
-* Logging
