@@ -16,6 +16,7 @@ The framework is designed with reusable Page Objects, common Selenium utilities,
 * **Page Object Model (POM)**
 * **Allure**
 * **JSON**
+* **python-dotenv**
 * **Requests**
 
 ## 📋 Test Coverage
@@ -41,6 +42,7 @@ The project covers the following scenarios:
 
 * Page Object Model for reusable and maintainable test code
 * Pytest fixtures for browser setup and teardown
+* Environment variables for login credentials
 * Parameterized tests for different test data
 * Explicit waits for better synchronization
 * External JSON test data
@@ -85,12 +87,38 @@ saucedemo-automation/
 ├── allure-results/
 ├── allure-report/
 │
+├── .env                  # Local credentials - not committed
+├── .env.example          # Environment variable template
 ├── conftest.py
 ├── .gitignore
 └── README.md
 ```
 
 > Generated folders such as screenshots, logs, reports, and Allure results are excluded from version control through `.gitignore`.
+
+## 🔐 Environment Configuration
+
+Valid SauceDemo login credentials are stored in environment variables instead of being hardcoded in the test code or committed to the repository.
+
+Create a `.env` file in the project root:
+
+```env
+SAUCE_USERNAME=your_username
+SAUCE_PASSWORD=your_password
+```
+
+A `.env.example` file is included as a template:
+
+```env
+SAUCE_USERNAME=
+SAUCE_PASSWORD=
+```
+
+The `.env` file should **not** be committed to GitHub. It is excluded through `.gitignore`.
+
+The project uses `python-dotenv` to load the environment variables, and a Pytest fixture provides the credentials to tests that require login.
+
+Other test data, such as product counts, sorting options, checkout information, and related test values, remains in `testData/data.json`.
 
 ## 🚀 Setup
 
@@ -109,8 +137,10 @@ cd saucedemo-automation
 Install the required Python packages:
 
 ```bash
-pip install selenium pytest allure-pytest requests
+pip install selenium pytest allure-pytest requests python-dotenv
 ```
+
+Create and configure the `.env` file before running the tests.
 
 ## ▶️ Running Tests
 
@@ -174,12 +204,14 @@ testData/data.json
 
 This includes data such as:
 
-* Login credentials
 * Number of products to add to the cart
 * Number of products to remove
 * Checkout information
+* Other non-sensitive test data
 
-Separating test data from test logic makes the tests easier to maintain and update.
+Login credentials are managed separately through environment variables.
+
+Separating credentials and test data from test logic makes the tests easier to maintain and helps prevent credentials from being committed to the repository.
 
 ## 📸 Failure Screenshots
 

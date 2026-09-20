@@ -12,21 +12,17 @@ class TestSorting(BaseClass):
     logger = BaseClass.get_logger()
     data = BaseClass.get_data_from_json("data.json")
 
-    # Login Credentials
-    username = data["login_credentials"]["username"]
-    password = data["login_credentials"]["password"]
-
-    def login_to_inventory(self):
+    def login_to_inventory(self, login_credentials):
 
         login_page = LoginPage(self.driver)
 
         self.logger.info(
-            f"Logging in with username '{self.username}'."
+            "Logging in with configured test credentials."
         )
 
         inventory_page = login_page.login(
-            self.username,
-            self.password
+            login_credentials["username"],
+            login_credentials["password"]
         )
 
         self.logger.info(
@@ -46,13 +42,13 @@ class TestSorting(BaseClass):
         "Verify that products are displayed in ascending alphabetical "
         "order when Name (A-Z) sorting is selected."
     )
-    def test_a_to_z_name_sort(self):
+    def test_a_to_z_name_sort(self, login_credentials):
 
         self.logger.info(
             "Starting TC-006: Verify products are sorted by Name (A-Z)."
         )
 
-        inventory_page = self.login_to_inventory()
+        inventory_page = self.login_to_inventory(login_credentials)
 
         self.logger.info(
             "Sorting products by Name (A-Z)."
@@ -63,7 +59,6 @@ class TestSorting(BaseClass):
         )
 
         item_names = inventory_page.get_items_name_list()
-
 
         self.logger.info(
             "Verifying products are displayed in ascending "
@@ -81,13 +76,13 @@ class TestSorting(BaseClass):
         "Verify that products are displayed in descending alphabetical "
         "order when Name (Z-A) sorting is selected."
     )
-    def test_z_to_a_name_sort(self):
+    def test_z_to_a_name_sort(self, login_credentials):
 
         self.logger.info(
             "Starting TC-007: Verify products are sorted by Name (Z-A)."
         )
 
-        inventory_page = self.login_to_inventory()
+        inventory_page = self.login_to_inventory(login_credentials)
 
         self.logger.info(
             "Sorting products by Name (Z-A)."
@@ -116,14 +111,14 @@ class TestSorting(BaseClass):
         "to the highest price when Price (Low to High) sorting "
         "is selected."
     )
-    def test_low_to_high_sort_price(self):
+    def test_low_to_high_sort_price(self, login_credentials):
 
         self.logger.info(
             "Starting TC-008: Verify products are sorted by "
             "Price (Low to High)."
         )
 
-        inventory_page = self.login_to_inventory()
+        inventory_page = self.login_to_inventory(login_credentials)
 
         self.logger.info(
             "Sorting products by Price (Low to High)."
@@ -152,14 +147,14 @@ class TestSorting(BaseClass):
         "to the lowest price when Price (High to Low) sorting "
         "is selected."
     )
-    def test_high_to_low_sort_price(self):
+    def test_high_to_low_sort_price(self, login_credentials):
 
         self.logger.info(
             "Starting TC-009: Verify products are sorted by "
             "Price (High to Low)."
         )
 
-        inventory_page = self.login_to_inventory()
+        inventory_page = self.login_to_inventory(login_credentials)
 
         self.logger.info(
             "Sorting products by Price (High to Low)."

@@ -12,10 +12,6 @@ class TestOrder(BaseClass):
     logger = BaseClass.get_logger()
     data = BaseClass.get_data_from_json("data.json")
 
-    # Login Credentials
-    username = data["login_credentials"]["username"]
-    password = data["login_credentials"]["password"]
-
     @allure.story("Complete Order Flow")
     @allure.severity(allure.severity_level.CRITICAL)
     @allure.title("TC-010: Complete Product Purchase")
@@ -24,7 +20,7 @@ class TestOrder(BaseClass):
         "complete the checkout process with correct item details and totals, "
         "and see the order confirmation messages after proceeding with the checkout."
     )
-    def test_order_items(self):
+    def test_order_items(self, login_credentials):
 
         self.logger.info(
             "Starting TC-010: Verify user can successfully complete an order."
@@ -46,12 +42,12 @@ class TestOrder(BaseClass):
 
         # Login
         self.logger.info(
-            f"Logging in as '{self.username}'."
+            "Logging in with configured test credentials."
         )
 
         inventory_page = login_page.login(
-            self.username,
-            self.password
+            login_credentials["username"],
+            login_credentials["password"]
         )
 
         self.logger.info(
@@ -197,6 +193,6 @@ class TestOrder(BaseClass):
             "Verifying redirection to the Inventory page."
         )
 
-        assert "inventory.html" in inventory_page.get_current_url(), (
+        assert "inventory.html" in self.driver.current_url, (
             "User was not redirected to the Inventory page."
         )
